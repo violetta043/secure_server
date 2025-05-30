@@ -1,3 +1,4 @@
+const sanitizeHtml = require('sanitize-html');
 const express = require('express');
 const router = express.Router();
 
@@ -26,18 +27,22 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   const { category, name, quantity, price, description } = req.body;
-  
+
+  const sanitizedDescription = sanitizeHtml(description, {
+    allowedTags: [], // дозволити лише текст, без HTML
+    allowedAttributes: {},
+  });
+
   const newPost = {
-    id: posts.length + 1,
+    id: posts.length ? posts[posts.length - 1].id + 1 : 1,
     category,
     name,
     quantity,
     price,
-    description,
+    description: sanitizedDescription, // <- очищено
   };
 
-  posts.push(newPost); 
-
+  posts.push(newPost);
   res.status(201).json({ message: 'Пост створено', post: newPost });
 });
 
@@ -64,16 +69,22 @@ router.put('/:id', (req, res) => {
     return res.status(404).json({ message: 'Пост не знайдено' });
   }
 
+  const sanitizedDescription = sanitizeHtml(description, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
+
   posts[index] = {
     id,
     category,
     name,
     quantity,
     price,
-    description
+    description: sanitizedDescription, // <- очищено
   };
 
   res.status(200).json({ message: 'Пост оновлено', post: posts[index] });
 });
+
 
 module.exports = router;
