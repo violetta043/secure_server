@@ -11,7 +11,6 @@ const indexRouter = require('./routes/index');
 const loginRouter = require('./src/login/login.routing'); 
 const postsRouter = require('./routes/posts');
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:3001'];
-// 'http://localhost:3000', 'file://'
 
 const app = express();
 
@@ -36,6 +35,14 @@ app.use(cors({
   },
   credentials: true
 }));
+
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; object-src 'none';"
+  );
+  next();
+});
 
 app.use('/login', loginRouter); 
 
