@@ -29,7 +29,7 @@ router.post('/', (req, res) => {
   const { category, name, quantity, price, description } = req.body;
 
   const sanitizedDescription = sanitizeHtml(description, {
-    allowedTags: [], // дозволити лише текст, без HTML
+    allowedTags: [], //appruve only text
     allowedAttributes: {},
   });
 
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     name,
     quantity,
     price,
-    description: sanitizedDescription, // <- очищено
+    description: sanitizedDescription, // <- sanitized
   };
 
   posts.push(newPost);
@@ -80,7 +80,7 @@ router.put('/:id', (req, res) => {
     name,
     quantity,
     price,
-    description: sanitizedDescription, // <- очищено
+    description: sanitizedDescription, 
   };
 
   res.status(200).json({ message: 'Пост оновлено', post: posts[index] });
