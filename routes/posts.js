@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
   };
 
   posts.push(newPost);
-  res.status(201).json({ message: 'Пост створено', post: newPost });
+  res.status(201).json({ message: 'Post created', post: newPost });
 });
 
 // DELETE post by ID
@@ -52,11 +52,11 @@ router.delete('/:id', (req, res) => {
   const index = posts.findIndex(post => post.id === id);
 
   if (index === -1) {
-    return res.status(404).json({ message: 'Пост не знайдено' });
+    return res.status(404).json({ message: 'Post not found' });
   }
 
   const deletedPost = posts.splice(index, 1)[0];
-  res.status(200).json({ message: 'Пост видалено', post: deletedPost });
+  res.status(200).json({ message: 'Post deleted', post: deletedPost });
 });
 
 // PUT (update) post by ID
@@ -66,7 +66,7 @@ router.put('/:id', (req, res) => {
 
   const index = posts.findIndex(post => post.id === id);
   if (index === -1) {
-    return res.status(404).json({ message: 'Пост не знайдено' });
+    return res.status(404).json({ message: 'Post not found' });
   }
 
   const sanitizedDescription = sanitizeHtml(description, {
@@ -83,7 +83,7 @@ router.put('/:id', (req, res) => {
     description: sanitizedDescription, 
   };
 
-  res.status(200).json({ message: 'Пост оновлено', post: posts[index] });
+  res.status(200).json({ message: 'Post updated', post: posts[index] });
 });
 
 

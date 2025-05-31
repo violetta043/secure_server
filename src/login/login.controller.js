@@ -6,7 +6,6 @@ class LogiController {
 
         const user = loginModel.verifyUser(name, password);
         if (user) {
-            // const token = loginModel.getJwt();
             res.status(200).json({ message: 'Login successful' });
             
         } else {
